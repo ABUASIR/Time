@@ -103,7 +103,7 @@ canvas{
   }
   function gameTime(){
     const n=new Date(),gt=new Date(n*30);
-    let h=gt.getUTCHours(),m=gt.getUTCMinutes(),P=h>=12?"ص":"م";
+    let h=gt.getUTCHours(),m=gt.getUTCMinutes(),P=h>=12?"م":"ص";
     h=h%12;if(h===0)h=12;return pad(h)+":"+pad(m)+" "+P;
   }
 
