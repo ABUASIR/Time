@@ -95,7 +95,7 @@ canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;background:
 (function(){
   const pad=n=>(n<10?"0":"")+n;
   const MOON_CYCLE=96*60;
-  const HARRIET_CYCLE=48*60;
+  const HARRIET_CYCLE=48*60+2; // ✅ ثانيتان إضافيتان مخفية لكل دورة
 
   function secondsUTC(d){return d.getUTCHours()*3600+d.getUTCMinutes()*60+d.getUTCSeconds()}
   function remainMoon(){const utc=secondsUTC(new Date());return MOON_CYCLE-(utc%MOON_CYCLE)}
@@ -119,7 +119,10 @@ canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;background:
   function remainHarriet(){
     let utc = secondsUTC(new Date()) - (offMin*60 + offSec);
     utc = ((utc % 86400) + 86400) % 86400;
-    return HARRIET_CYCLE - (utc % HARRIET_CYCLE);
+    let rem = HARRIET_CYCLE - (utc % HARRIET_CYCLE);
+    // ✅ إذا الوقت أقل من ثانيتين، نضيف دورة جديدة كاملة
+    if (rem < 2) rem += HARRIET_CYCLE;
+    return rem;
   }
 
   function update(){
@@ -148,7 +151,6 @@ canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;background:
     alert(`✅ تم الحفظ\nالدقائق: ${offMin}\nالثواني: ${offSec}`);
   };
 
-  // 🔁 إعادة الضبط
   document.getElementById("resetBtn").onclick=()=>{
     offMin=0;offSec=0;
     localStorage.setItem("offMin","0");
