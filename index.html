@@ -1,1 +1,135 @@
-<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/><title>حصري - TR111</title><link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Cairo:wght@400;700&display=swap" rel="stylesheet"><style>:root{--bg:#0e0f12;--card:#15171b;--text:#e8edf5;--line:#242833;--accent:#d4af37}*{box-sizing:border-box}body{margin:0;font-family:'Tajawal','Cairo',sans-serif;color:var(--text);overflow:hidden;display:flex;justify-content:center;align-items:center;height:100vh;background:#000}canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;background:black}.wA{width:min(520px,94vw)}.cA{position:relative;background:rgba(0,0,0,0.85);border:2px solid var(--accent);border-radius:20px;box-shadow:0 0 25px rgba(212,175,55,0.6);padding:16px 20px;text-align:center}.tA{font-size:20px;margin-bottom:8px;color:#fff;text-shadow:0 0 8px var(--accent)}.rA{display:flex;align-items:center;justify-content:space-between;padding:10px 2px;border-top:1px solid var(--line)}.lA{color:#d8dfec}.vA{font-variant-numeric:tabular-nums;font-weight:900;letter-spacing:.4px}.fA{margin-top:12px;text-align:center;color:#b8c1d4;font-size:.9rem;opacity:.9}.fA span{color:var(--accent);font-weight:700}</style></head><body><canvas id="cnv_mx"></canvas><div class="wA"><div class="cA" role="region"><div class="tA">خاص بلعبة RedDeadOnline</div><div class="rA"><div class="lA">الوقت داخل اللعبة:</div><div class="vA" id="id_gm">--:--</div></div><div class="rA"><div class="lA">تجديد مشتري المونشاين:</div><div class="vA" id="id_mn">--:--:--</div></div><div class="rA"><div class="lA">تجديد حيوانات هاريت:</div><div class="vA" id="id_ht">--:--:--</div></div><div class="fA"><span id="ft"></span></div></div></div><script>!function(){const c=document.getElementById("cnv_mx"),g=c.getContext("2d");function s(){c.height=innerHeight;c.width=innerWidth}addEventListener("resize",s,{passive:!0});s();const L="01",F=14;let C=Math.floor(c.width/F),D=new Array(C).fill(1);function r(){const n=Math.floor(c.width/F);if(n!==C){C=n;D=new Array(C).fill(1)}}function d(){r();g.fillStyle="rgba(0,0,0,0.05)";g.fillRect(0,0,c.width,c.height);g.fillStyle="#FFD700";g.font=F+"px monospace";for(let i=0;i<D.length;i++){const ch=L.charAt(Math.floor(Math.random()*L.length));g.fillText(ch,i*F,D[i]*F);if(D[i]*F>c.height&&Math.random()>0.975)D[i]=0;D[i]++}}setInterval(d,35)}();</script><script>"use strict";(function(){const moonInt=96,harInt=48,harOffset=-15;const pad=n=>(n<10?"0":"")+n;const T={now:()=>new Date()};function utcSeconds(d){return d.getUTCHours()*3600+d.getUTCMinutes()*60+d.getUTCSeconds()}function remain(intM,offM=0){const n=T.now();const u=(utcSeconds(n)+offM*60+86400)%86400;const i=intM*60;return i-(u%i)}function fmt(sec){sec=Math.floor(Math.max(0,sec));const h=Math.floor(sec/3600),m=Math.floor(sec%3600/60),s=sec%60;return pad(h)+":"+pad(m)+":"+pad(s)}function gStr(){const n=T.now(),gt=new Date(n*30);let h=gt.getUTCHours(),m=gt.getUTCMinutes(),P=h>=12?"م":"ص";h=h%12;if(h===0)h=12;return pad(h)+":"+pad(m)+" "+P}const gm=document.getElementById("id_gm"),mn=document.getElementById("id_mn"),ht=document.getElementById("id_ht");function R(){gm.textContent=gStr();mn.textContent=fmt(remain(moonInt));ht.textContent=fmt(remain(harInt,harOffset))}R();setInterval(R,1e3)})();(function(){var b64="2KjYsdmF2KzYqSDZiNmB2YPYsdipINin2YTYudiz2YrYsdmKIFRlbGVncmFtIEBUUjExMQ==";try{var bin=atob(b64),esc=bin.split("").map(c=>"%"+("00"+c.charCodeAt(0).toString(16)).slice(-2)).join(""),txt=decodeURIComponent(esc);document.getElementById("ft").textContent=txt}catch(e){}})();</script></body></html>
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>حصري - TR111</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Cairo:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0e0f12;--card:#15171b;--text:#e8edf5;
+  --line:#242833;--accent:#d4af37;
+}
+*{box-sizing:border-box}
+body{
+  margin:0;font-family:'Tajawal','Cairo',sans-serif;
+  color:var(--text);overflow:hidden;
+  display:flex;justify-content:center;align-items:center;
+  height:100vh;background:#000;
+}
+canvas{
+  position:fixed;top:0;left:0;width:100%;height:100%;
+  z-index:-1;background:black;
+}
+.wA{width:min(520px,94vw)}
+.cA{
+  position:relative;background:rgba(0,0,0,0.85);
+  border:2px solid var(--accent);border-radius:20px;
+  box-shadow:0 0 25px rgba(212,175,55,0.6);
+  padding:16px 20px;text-align:center;
+}
+.tA{
+  font-size:20px;margin-bottom:8px;color:#fff;
+  text-shadow:0 0 8px var(--accent)
+}
+.rA{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 2px;border-top:1px solid var(--line)
+}
+.lA{color:#d8dfec}
+.vA{
+  font-variant-numeric:tabular-nums;font-weight:900;letter-spacing:.4px
+}
+.fA{
+  margin-top:12px;text-align:center;color:#b8c1d4;
+  font-size:.9rem;opacity:.9
+}
+.fA span{color:var(--accent);font-weight:700}
+</style>
+</head>
+<body>
+<canvas id="cnv_mx"></canvas>
+<div class="wA">
+  <div class="cA" role="region">
+    <div class="tA">خاص بلعبة RedDeadOnline</div>
+    <div class="rA"><div class="lA">الوقت داخل اللعبة:</div><div class="vA" id="id_gm">--:--</div></div>
+    <div class="rA"><div class="lA">تجديد مشتري المونشاين:</div><div class="vA" id="id_mn">--:--:--</div></div>
+    <div class="rA"><div class="lA">تجديد حيوانات هاريت:</div><div class="vA" id="id_ht">--:--:--</div></div>
+    <div class="fA"><span id="ft"></span></div>
+  </div>
+</div>
+
+<script>
+// خلفية Matrix ذهبية
+!function(){
+  const c=document.getElementById("cnv_mx"),g=c.getContext("2d");
+  function s(){c.height=innerHeight;c.width=innerWidth}
+  addEventListener("resize",s,{passive:!0});s();
+  const L="01",F=14;let C=Math.floor(c.width/F),D=new Array(C).fill(1);
+  function r(){const n=Math.floor(c.width/F);if(n!==C){C=n;D=new Array(C).fill(1)}}
+  function d(){
+    r();g.fillStyle="rgba(0,0,0,0.05)";
+    g.fillRect(0,0,c.width,c.height);
+    g.fillStyle="#FFD700";g.font=F+"px monospace";
+    for(let i=0;i<D.length;i++){
+      const ch=L.charAt(Math.floor(Math.random()*L.length));
+      g.fillText(ch,i*F,D[i]*F);
+      if(D[i]*F>c.height&&Math.random()>0.975)D[i]=0;D[i]++;
+    }
+  }
+  setInterval(d,35);
+}();
+
+// الحسابات الدقيقة
+"use strict";
+(function(){
+  const moonInt=96*60;        // المونشاين كل 96 دقيقة
+  const harCycle=48*60+2.19;  // هاريت كل 48 دقيقة + 2.19 ثانية
+  const harStart=Date.UTC(2025,9,25,12,19,55); // 25/10/2025 12:19:55 UTC
+  const pad=n=>(n<10?"0":"")+Math.floor(n);
+
+  function utcNowSec(){const n=new Date();return n.getUTCHours()*3600+n.getUTCMinutes()*60+n.getUTCSeconds();}
+  function remainMoon(){const n=new Date();const u=(utcNowSec()+86400)%86400;return moonInt-(u%moonInt);}
+  function remainHarriet(){
+    const now=new Date();
+    const elapsed=(now.getTime()-harStart)/1000;
+    const remain=harCycle-(elapsed%harCycle);
+    return remain;
+  }
+  function fmt(sec){
+    sec=Math.max(0,sec);
+    const h=Math.floor(sec/3600),m=Math.floor(sec%3600/60),s=Math.floor(sec%60);
+    return pad(h)+":"+pad(m)+":"+pad(s);
+  }
+  function gameTime(){
+    const n=new Date(),gt=new Date(n*30);
+    let h=gt.getUTCHours(),m=gt.getUTCMinutes(),P=h>=12?"ص":"م";
+    h=h%12;if(h===0)h=12;return pad(h)+":"+pad(m)+" "+P;
+  }
+
+  const gm=document.getElementById("id_gm"),
+        mn=document.getElementById("id_mn"),
+        ht=document.getElementById("id_ht");
+
+  function update(){
+    gm.textContent=gameTime();
+    mn.textContent=fmt(remainMoon());
+    ht.textContent=fmt(remainHarriet());
+  }
+  update();
+  setInterval(update,1000);
+})();
+
+// التوقيع
+(function(){
+  var b64="2KjYsdmF2KzYqSDZiNmB2YPYsdipINin2YTYudiz2YrYsdmKIFRlbGVncmFtIEBUUjExMQ==";
+  try{
+    var bin=atob(b64),
+    esc=bin.split("").map(c=>"%"+("00"+c.charCodeAt(0).toString(16)).slice(-2)).join(""),
+    txt=decodeURIComponent(esc);
+    document.getElementById("ft").textContent=txt;
+  }catch(e){}
+})();
+</script>
+</body>
+</html>
