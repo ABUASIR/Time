@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>تايم ردد</title>
+<title>حصري - TR111</title>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Cairo:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#0e0f12;--card:#15171b;--text:#e8edf5;--line:#242833;--accent:#d4af37}
@@ -208,7 +208,11 @@ canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;background:
   let timerActive=false, timerEnd=null, interval=null;
 
   document.getElementById("resCalc").onclick=function(){
-    const val=parseInt(input.value.replace(/[^\d]/g,""));
+    const val=parseInt(
+  input.value
+    .replace(/[٠-٩]/g, d => "٠١٢٣٤٥٦٧٨٩".indexOf(d))  // تحويل الأرقام العربية
+    .replace(/[^\d]/g,"")                              // حذف أي رموز أخرى
+);
     if(isNaN(val)||val<0||val>=100){
       result.innerHTML="⚠️ أدخل رقمًا صحيحًا بين 0 و99";
       return;
