@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>حصري - TR111</title>
+<title>تايم ردد</title>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&family=Cairo:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#0e0f12;--card:#15171b;--text:#e8edf5;--line:#242833;--accent:#d4af37}
@@ -37,6 +37,30 @@ canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;background:
 .reset-btn{background:#444;color:#fff;border:1px solid var(--accent)}
 .fA{margin-top:12px;color:#b8c1d4;font-size:.9rem;opacity:.9}
 .fA span{color:var(--accent);font-weight:700}
+
+/* قسم Resupply */
+.resupply{
+  margin-top:20px;border-top:1px solid var(--line);padding-top:15px
+}
+.resupply h3{
+  color:var(--accent);font-size:18px;margin-bottom:8px;
+  text-shadow:0 0 8px var(--accent)
+}
+.resupply input{
+  width:70%;padding:8px;font-size:16px;border-radius:8px;
+  border:1px solid var(--accent);background:#000;color:#fff;text-align:center;
+  outline:none;margin-top:6px;box-shadow:0 0 10px rgba(212,175,55,0.4);
+}
+.resupply button{
+  margin-top:10px;padding:8px 16px;font-size:16px;
+  background:linear-gradient(90deg,#bfa140,#d4af37);border:none;border-radius:8px;
+  color:#000;font-weight:bold;cursor:pointer;
+  box-shadow:0 0 15px rgba(212,175,55,0.4)
+}
+.resupply button:hover{transform:scale(1.05);box-shadow:0 0 25px rgba(212,175,55,0.6);}
+#resResult{margin-top:10px;font-size:15px;color:#fff;line-height:1.6}
+#resTimer{margin-top:12px;font-size:18px;color:var(--accent);text-shadow:0 0 8px var(--accent)}
+#resNote{margin-top:6px;color:#ffcc44;font-weight:bold;text-shadow:0 0 6px #ffb700;display:none}
 </style>
 </head>
 <body>
@@ -69,6 +93,17 @@ canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;background:
     <button class="reset-btn" id="resetBtn">🔁 إعادة الضبط</button>
   </div>
 
+  <!-- ✅ قسم حاسبة Resupply -->
+  <div class="resupply">
+    <h3>🧮 حاسبة Resupply  و التاجر</h3>
+    <input type="text" id="resInput" placeholder="أدخل النسبة الحالية مثلاً 73">
+    <button id="resCalc">احسب</button>
+    <div id="resResult"></div>
+    <button id="resStart">⏱️ تشغيل مؤقت Resupply</button>
+    <div id="resTimer"></div>
+    <div id="resNote">⚠️ ملاحظة: وفر لكريبس جلودًا لكي لا يتوقف عن العمل</div>
+  </div>
+
   <div class="fA"><span id="ft"></span></div>
 </div>
 
@@ -95,7 +130,7 @@ canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;background:
 (function(){
   const pad=n=>(n<10?"0":"")+n;
   const MOON_CYCLE=96*60;
-  const HARRIET_CYCLE=48*60+2; // ✅ ثانيتان إضافيتان مخفية لكل دورة
+  const HARRIET_CYCLE=48*60+2;
 
   function secondsUTC(d){return d.getUTCHours()*3600+d.getUTCMinutes()*60+d.getUTCSeconds()}
   function remainMoon(){const utc=secondsUTC(new Date());return MOON_CYCLE-(utc%MOON_CYCLE)}
@@ -120,7 +155,6 @@ canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;background:
     let utc = secondsUTC(new Date()) - (offMin*60 + offSec);
     utc = ((utc % 86400) + 86400) % 86400;
     let rem = HARRIET_CYCLE - (utc % HARRIET_CYCLE);
-    // ✅ إذا الوقت أقل من ثانيتين، نضيف دورة جديدة كاملة
     if (rem < 2) rem += HARRIET_CYCLE;
     return rem;
   }
@@ -158,6 +192,79 @@ canvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;background:
     refresh();
     alert("🔁 تمت إعادة الضبط إلى 0");
   };
+})();
+
+// ============ حاسبة Resupply ============
+(function(){
+  const input=document.getElementById("resInput");
+  const result=document.getElementById("resResult");
+  const timer=document.getElementById("resTimer");
+  const note=document.getElementById("resNote");
+  const btn=document.getElementById("resStart");
+  const alarm=new Audio("https://actions.google.com/sounds/v1/alarms/beep_short.ogg");
+
+  const MINUTES_PER_UNIT=2;
+  const TIMER_DURATION=50*60*1000;
+  let timerActive=false, timerEnd=null, interval=null;
+
+  document.getElementById("resCalc").onclick=function(){
+    const val=parseInt(input.value.replace(/[^\d]/g,""));
+    if(isNaN(val)||val<0||val>=100){
+      result.innerHTML="⚠️ أدخل رقمًا صحيحًا بين 0 و99";
+      return;
+    }
+    const remaining=100-val;
+    const totalMin=remaining*MINUTES_PER_UNIT;
+    const h=Math.floor(totalMin/60),m=totalMin%60;
+    result.innerHTML=`⏳ النسبة الحالية: ${val}%<br>🧮 الوقت المتبقي حتى الامتلاء: ${h} ساعة ${m} دقيقة<br>⚠️ ملاحظة: مهمة Resupply غير محسوبة<br>💡 المدة الثابتة لمهمة Resupply هي ٥٠ دقيقة.`;
+  };
+
+  function updateTimer(){
+    const rem=Math.max(0,Math.floor((timerEnd-Date.now())/1000));
+    if(rem<=0){
+      clearInterval(interval);
+      timer.textContent="⏰ انتهى المؤقت!";
+      note.style.display="none";
+      timerActive=false;
+      localStorage.removeItem("resupply_end");
+      let count=0; const play=()=>{alarm.currentTime=0;alarm.play();if(++count<3)setTimeout(play,1200)};play();
+      btn.textContent="⏱️ تشغيل مؤقت Resupply";
+      return;
+    }
+    const m=Math.floor(rem/60),s=rem%60;
+    timer.textContent=`الوقت المتبقي: ${m.toString().padStart(2,"0")}:${s.toString().padStart(2,"0")}`;
+  }
+
+  btn.onclick=function(){
+    if(!timerActive){
+      timerEnd=Date.now()+TIMER_DURATION;
+      localStorage.setItem("resupply_end",timerEnd);
+      timerActive=true;
+      btn.textContent="⏹️ إيقاف مؤقت Resupply";
+      note.style.display="block";
+      updateTimer();
+      interval=setInterval(updateTimer,1000);
+    } else {
+      clearInterval(interval);
+      timerActive=false;
+      localStorage.removeItem("resupply_end");
+      timer.textContent="";
+      note.style.display="none";
+      btn.textContent="⏱️ تشغيل مؤقت Resupply";
+    }
+  };
+
+  const saved=localStorage.getItem("resupply_end");
+  if(saved && Date.now()<saved){
+    timerEnd=parseInt(saved);
+    timerActive=true;
+    btn.textContent="⏹️ إيقاف مؤقت Resupply";
+    note.style.display="block";
+    updateTimer();
+    interval=setInterval(updateTimer,1000);
+  } else {
+    localStorage.removeItem("resupply_end");
+  }
 })();
 
 // ============ التوقيع ============
